@@ -1,0 +1,16 @@
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\bin\Debug\net8.0-windows\BMI calc.exe
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\bin\Debug\net8.0-windows\BMI calc.deps.json
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\bin\Debug\net8.0-windows\BMI calc.runtimeconfig.json
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\bin\Debug\net8.0-windows\BMI calc.dll
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\bin\Debug\net8.0-windows\BMI calc.pdb
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI_calc.Form1.resources
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.csproj.GenerateResource.cache
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.AssemblyInfoInputs.cache
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.AssemblyInfo.cs
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.csproj.CoreCompileInputs.cache
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.dll
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\refint\BMI calc.dll
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.pdb
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\BMI calc.genruntimeconfig.cache
+C:\Users\Abhay\source\repos\BMI calc\BMI calc\obj\Debug\net8.0-windows\ref\BMI calc.dll
