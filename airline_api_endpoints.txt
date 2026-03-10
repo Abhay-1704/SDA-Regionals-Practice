@@ -1,0 +1,472 @@
+====================================================================================
+DATABASE SCHEMA - AIRLINE MANAGEMENT SYSTEM
+====================================================================================
+
+TABLE: users
+  - user_id        INT          PRIMARY KEY, AUTO_INCREMENT
+  - name           VARCHAR(100)
+  - email          VARCHAR(100) UNIQUE
+  - mobile         VARCHAR(15)
+  - password_hash  VARCHAR(255)
+  - created_at     DATETIME
+
+TABLE: flights
+  - flight_id      INT          PRIMARY KEY, AUTO_INCREMENT
+  - flight_number  VARCHAR(10)  UNIQUE
+  - airline        VARCHAR(100)
+  - origin         VARCHAR(100)
+  - destination    VARCHAR(100)
+  - departure_time DATETIME
+  - arrival_time   DATETIME
+  - status         VARCHAR(20)  -- e.g. Scheduled, Delayed, Cancelled
+  - total_seats    INT
+  - available_seats INT
+
+TABLE: bookings
+  - booking_id     INT          PRIMARY KEY, AUTO_INCREMENT
+  - user_id        INT          FOREIGN KEY → users(user_id)
+  - flight_id      INT          FOREIGN KEY → flights(flight_id)
+  - seat_number    VARCHAR(5)
+  - class          VARCHAR(20)  -- Economy, Business, First
+  - booking_date   DATETIME
+  - status         VARCHAR(20)  -- Confirmed, Cancelled, Pending
+  - total_fare     DECIMAL(10,2)
+
+TABLE: passengers
+  - passenger_id   INT          PRIMARY KEY, AUTO_INCREMENT
+  - booking_id     INT          FOREIGN KEY → bookings(booking_id)
+  - first_name     VARCHAR(100)
+  - last_name      VARCHAR(100)
+  - passport_no    VARCHAR(20)
+  - nationality    VARCHAR(50)
+  - dob            DATE
+
+TABLE: payments
+  - payment_id     INT          PRIMARY KEY, AUTO_INCREMENT
+  - booking_id     INT          FOREIGN KEY → bookings(booking_id)
+  - amount         DECIMAL(10,2)
+  - method         VARCHAR(50)  -- Credit Card, UPI, Net Banking
+  - status         VARCHAR(20)  -- Success, Failed, Refunded
+  - payment_date   DATETIME
+
+TABLE: airports
+  - airport_id     INT          PRIMARY KEY, AUTO_INCREMENT
+  - code           VARCHAR(5)   UNIQUE  -- e.g. JFK, LHR, DEL
+  - name           VARCHAR(150)
+  - city           VARCHAR(100)
+  - country        VARCHAR(100)
+
+====================================================================================
+API ENDPOINTS - AIRLINE MANAGEMENT SYSTEM
+====================================================================================
+
+------------------------------------------------------------------------------------
+1. USER ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/users/<int:user_id>
+MethodType  : GET
+Description : Used to get user info
+Parameter   : user_id (Id of user)
+Request Body: -
+Response Body:
+{
+    "user_id": 101,
+    "name": "John Doe",
+    "email": "john@email.com",
+    "mobile": "9876543210"
+}
+
+Error Response:
+{
+    "errorCode": 401,
+    "errorMsg": "Unauthorised"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/users/register
+MethodType  : POST
+Description : Register a new user
+Parameter   : -
+Request Body:
+{
+    "name": "John Doe",
+    "email": "john@email.com",
+    "mobile": "9876543210",
+    "password": "secret123"
+}
+Response Body:
+{
+    "user_id": 101,
+    "message": "User registered successfully"
+}
+
+Error Response:
+{
+    "errorCode": 409,
+    "errorMsg": "Email already exists"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/users/login
+MethodType  : POST
+Description : Authenticate user and return access token
+Parameter   : -
+Request Body:
+{
+    "email": "john@email.com",
+    "password": "secret123"
+}
+Response Body:
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user_id": 101,
+    "message": "Login successful"
+}
+
+Error Response:
+{
+    "errorCode": 401,
+    "errorMsg": "Invalid email or password"
+}
+
+------------------------------------------------------------------------------------
+2. FLIGHT ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/flights
+MethodType  : GET
+Description : Get list of all available flights
+Parameter   : -
+Request Body: -
+Response Body:
+{
+    "flights": [
+        {
+            "flight_id": 1,
+            "flight_number": "AI202",
+            "airline": "Air India",
+            "origin": "Delhi",
+            "destination": "Mumbai",
+            "departure_time": "2025-06-01T08:00:00",
+            "arrival_time": "2025-06-01T10:00:00",
+            "status": "Scheduled",
+            "available_seats": 45
+        }
+    ]
+}
+
+Error Response:
+{
+    "errorCode": 500,
+    "errorMsg": "Internal Server Error"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/flights/<int:flight_id>
+MethodType  : GET
+Description : Get details of a specific flight by ID
+Parameter   : flight_id (Id of flight)
+Request Body: -
+Response Body:
+{
+    "flight_id": 1,
+    "flight_number": "AI202",
+    "airline": "Air India",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departure_time": "2025-06-01T08:00:00",
+    "arrival_time": "2025-06-01T10:00:00",
+    "status": "Scheduled",
+    "total_seats": 180,
+    "available_seats": 45
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "Flight not found"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/flights/search
+MethodType  : GET
+Description : Search flights by origin, destination, and date
+Parameter   : origin, destination, date (query params)
+Request Body: -
+Response Body:
+{
+    "flights": [
+        {
+            "flight_id": 1,
+            "flight_number": "AI202",
+            "origin": "Delhi",
+            "destination": "Mumbai",
+            "departure_time": "2025-06-01T08:00:00",
+            "available_seats": 45,
+            "fare": 4500.00
+        }
+    ]
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "No flights found for given criteria"
+}
+
+------------------------------------------------------------------------------------
+3. BOOKING ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/bookings
+MethodType  : POST
+Description : Create a new flight booking
+Parameter   : -
+Request Body:
+{
+    "user_id": 101,
+    "flight_id": 1,
+    "seat_number": "12A",
+    "class": "Economy",
+    "passengers": [
+        {
+            "first_name": "John",
+            "last_name": "Doe",
+            "passport_no": "A1234567",
+            "nationality": "Indian",
+            "dob": "1990-05-15"
+        }
+    ]
+}
+Response Body:
+{
+    "booking_id": 501,
+    "status": "Confirmed",
+    "total_fare": 4500.00,
+    "message": "Booking successful"
+}
+
+Error Response:
+{
+    "errorCode": 400,
+    "errorMsg": "Seat not available"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/bookings/<int:booking_id>
+MethodType  : GET
+Description : Get details of a specific booking
+Parameter   : booking_id (Id of booking)
+Request Body: -
+Response Body:
+{
+    "booking_id": 501,
+    "user_id": 101,
+    "flight_id": 1,
+    "flight_number": "AI202",
+    "seat_number": "12A",
+    "class": "Economy",
+    "booking_date": "2025-05-20T14:30:00",
+    "status": "Confirmed",
+    "total_fare": 4500.00
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "Booking not found"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/bookings/<int:booking_id>/cancel
+MethodType  : PUT
+Description : Cancel an existing booking
+Parameter   : booking_id (Id of booking)
+Request Body: -
+Response Body:
+{
+    "booking_id": 501,
+    "status": "Cancelled",
+    "message": "Booking cancelled successfully"
+}
+
+Error Response:
+{
+    "errorCode": 400,
+    "errorMsg": "Booking cannot be cancelled"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/users/<int:user_id>/bookings
+MethodType  : GET
+Description : Get all bookings for a specific user
+Parameter   : user_id (Id of user)
+Request Body: -
+Response Body:
+{
+    "user_id": 101,
+    "bookings": [
+        {
+            "booking_id": 501,
+            "flight_number": "AI202",
+            "origin": "Delhi",
+            "destination": "Mumbai",
+            "departure_time": "2025-06-01T08:00:00",
+            "status": "Confirmed",
+            "total_fare": 4500.00
+        }
+    ]
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "No bookings found for this user"
+}
+
+------------------------------------------------------------------------------------
+4. PASSENGER ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/bookings/<int:booking_id>/passengers
+MethodType  : GET
+Description : Get all passengers for a specific booking
+Parameter   : booking_id (Id of booking)
+Request Body: -
+Response Body:
+{
+    "booking_id": 501,
+    "passengers": [
+        {
+            "passenger_id": 201,
+            "first_name": "John",
+            "last_name": "Doe",
+            "passport_no": "A1234567",
+            "nationality": "Indian",
+            "dob": "1990-05-15"
+        }
+    ]
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "Booking not found"
+}
+
+------------------------------------------------------------------------------------
+5. PAYMENT ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/payments
+MethodType  : POST
+Description : Process payment for a booking
+Parameter   : -
+Request Body:
+{
+    "booking_id": 501,
+    "amount": 4500.00,
+    "method": "Credit Card"
+}
+Response Body:
+{
+    "payment_id": 301,
+    "status": "Success",
+    "message": "Payment processed successfully"
+}
+
+Error Response:
+{
+    "errorCode": 402,
+    "errorMsg": "Payment failed"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/payments/<int:payment_id>
+MethodType  : GET
+Description : Get payment details by payment ID
+Parameter   : payment_id (Id of payment)
+Request Body: -
+Response Body:
+{
+    "payment_id": 301,
+    "booking_id": 501,
+    "amount": 4500.00,
+    "method": "Credit Card",
+    "status": "Success",
+    "payment_date": "2025-05-20T14:35:00"
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "Payment record not found"
+}
+
+------------------------------------------------------------------------------------
+6. AIRPORT ENDPOINTS
+------------------------------------------------------------------------------------
+
+Endpoint    : api/airports
+MethodType  : GET
+Description : Get list of all airports
+Parameter   : -
+Request Body: -
+Response Body:
+{
+    "airports": [
+        {
+            "airport_id": 1,
+            "code": "DEL",
+            "name": "Indira Gandhi International Airport",
+            "city": "New Delhi",
+            "country": "India"
+        },
+        {
+            "airport_id": 2,
+            "code": "BOM",
+            "name": "Chhatrapati Shivaji Maharaj International Airport",
+            "city": "Mumbai",
+            "country": "India"
+        }
+    ]
+}
+
+Error Response:
+{
+    "errorCode": 500,
+    "errorMsg": "Internal Server Error"
+}
+
+------------------------------------------------------------------------------------
+
+Endpoint    : api/airports/<string:code>
+MethodType  : GET
+Description : Get airport details by IATA code
+Parameter   : code (IATA airport code e.g. DEL, BOM)
+Request Body: -
+Response Body:
+{
+    "airport_id": 1,
+    "code": "DEL",
+    "name": "Indira Gandhi International Airport",
+    "city": "New Delhi",
+    "country": "India"
+}
+
+Error Response:
+{
+    "errorCode": 404,
+    "errorMsg": "Airport not found"
+}
+
+====================================================================================
