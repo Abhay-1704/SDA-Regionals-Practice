@@ -1,0 +1,16 @@
+F:\DynamicRowsandColums\DynamicRowsandColums\bin\Debug\net8.0-windows\DynamicRowsandColums.exe
+F:\DynamicRowsandColums\DynamicRowsandColums\bin\Debug\net8.0-windows\DynamicRowsandColums.deps.json
+F:\DynamicRowsandColums\DynamicRowsandColums\bin\Debug\net8.0-windows\DynamicRowsandColums.runtimeconfig.json
+F:\DynamicRowsandColums\DynamicRowsandColums\bin\Debug\net8.0-windows\DynamicRowsandColums.dll
+F:\DynamicRowsandColums\DynamicRowsandColums\bin\Debug\net8.0-windows\DynamicRowsandColums.pdb
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.Form1.resources
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.csproj.GenerateResource.cache
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.GeneratedMSBuildEditorConfig.editorconfig
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.AssemblyInfoInputs.cache
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.AssemblyInfo.cs
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.csproj.CoreCompileInputs.cache
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.dll
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\refint\DynamicRowsandColums.dll
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.pdb
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\DynamicRowsandColums.genruntimeconfig.cache
+F:\DynamicRowsandColums\DynamicRowsandColums\obj\Debug\net8.0-windows\ref\DynamicRowsandColums.dll
